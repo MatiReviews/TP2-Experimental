@@ -7183,7 +7183,7 @@
         "gridColor": 10401023,
         "gridAlpha": 0.8,
         "snap": false,
-        "zoomFactor": 0.4215464057538899,
+        "zoomFactor": 0.7915958064922081,
         "windowMask": false
       },
       "objectsGroups": [],
@@ -8219,10 +8219,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": false,
               "name": "Platform",
-              "platformType": "NormalPlatform",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": false,
+              "platformType": "NormalPlatform",
               "yGrabOffset": 0
             }
           ]
@@ -8261,10 +8261,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "Jumpthru",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "Jumpthru",
               "yGrabOffset": 0
             }
           ],
@@ -8348,10 +8348,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "Jumpthru",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "Jumpthru",
               "yGrabOffset": 0
             }
           ],
@@ -8435,10 +8435,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "Jumpthru",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "Jumpthru",
               "yGrabOffset": 0
             }
           ],
@@ -8522,10 +8522,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "Jumpthru",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "Jumpthru",
               "yGrabOffset": 0
             }
           ],
@@ -8611,10 +8611,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "NormalPlatform",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "NormalPlatform",
               "yGrabOffset": 0
             }
           ]
@@ -8629,10 +8629,10 @@
           "effects": [],
           "behaviors": [
             {
-              "canBeGrabbed": true,
               "name": "Platform",
-              "platformType": "NormalPlatform",
               "type": "PlatformBehavior::PlatformBehavior",
+              "canBeGrabbed": true,
+              "platformType": "NormalPlatform",
               "yGrabOffset": 0
             }
           ],
@@ -8759,7 +8759,26 @@
           "tags": "",
           "type": "Sprite",
           "updateIfNotVisible": false,
-          "variables": [],
+          "variables": [
+            {
+              "folded": true,
+              "name": "isJumping",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "folded": true,
+              "name": "isCrouching",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "folded": true,
+              "name": "isShooting",
+              "type": "boolean",
+              "value": true
+            }
+          ],
           "effects": [],
           "behaviors": [
             {
@@ -8833,6 +8852,8 @@
               "PlatformerBehavior": "PlatformerObject"
             },
             {
+              "name": "PlatformerObject",
+              "type": "PlatformBehavior::PlatformerObjectBehavior",
               "acceleration": 1500,
               "canGoDownFromJumpthru": true,
               "canGrabPlatforms": false,
@@ -8845,9 +8866,7 @@
               "ladderClimbingSpeed": 150,
               "maxFallingSpeed": 700,
               "maxSpeed": 250,
-              "name": "PlatformerObject",
               "slopeMaxAngle": 60,
-              "type": "PlatformBehavior::PlatformerObjectBehavior",
               "useLegacyTrajectory": false,
               "xGrabTolerance": 10,
               "yGrabOffset": 0
@@ -8930,7 +8949,7 @@
               ]
             },
             {
-              "name": "Agacharse",
+              "name": "Crouch",
               "useMultipleDirections": false,
               "directions": [
                 {
@@ -9171,6 +9190,18 @@
               "parameters": [
                 ""
               ]
+            },
+            {
+              "type": {
+                "value": "CentreCamera"
+              },
+              "parameters": [
+                "",
+                "Player",
+                "",
+                "",
+                ""
+              ]
             }
           ]
         },
@@ -9179,8 +9210,50 @@
           "conditions": [
             {
               "type": {
-                "inverted": true,
-                "value": "PlatformBehavior::PlatformerObjectBehavior::IsMovingEvenALittle"
+                "value": "KeyPressed"
+              },
+              "parameters": [
+                "",
+                "d"
+              ]
+            },
+            {
+              "type": {
+                "value": "KeyPressed"
+              },
+              "parameters": [
+                "",
+                "a"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": {
+                "value": "SetAnimationName"
+              },
+              "parameters": [
+                "Player",
+                "\"Walk\""
+              ]
+            },
+            {
+              "type": {
+                "value": "SetAnimationName"
+              },
+              "parameters": [
+                "Player",
+                "\"Walk\""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": {
+                "value": "PlatformBehavior::CanJump"
               },
               "parameters": [
                 "Player",
@@ -9191,24 +9264,11 @@
           "actions": [
             {
               "type": {
-                "value": "PlatformerCharacterAnimator::PlatformerCharacterAnimator::EnableHorizontalFlipping"
+                "value": "SetAnimationName"
               },
               "parameters": [
                 "Player",
-                "PlatformerCharacterAnimator",
-                "",
-                ""
-              ]
-            },
-            {
-              "type": {
-                "value": "PlatformerCharacterAnimator::PlatformerCharacterAnimator::EnableChangingAnimations"
-              },
-              "parameters": [
-                "Player",
-                "PlatformerCharacterAnimator",
-                "",
-                ""
+                "\"Idle\""
               ]
             }
           ]
@@ -9218,54 +9278,11 @@
           "conditions": [
             {
               "type": {
-                "value": "AngleOfDisplacement"
-              },
-              "parameters": [
-                "Elevator",
-                "90",
-                "90"
-              ]
-            }
-          ],
-          "actions": []
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "Health::Health::Health"
+                "value": "PlatformBehavior::PlatformerObjectBehavior::IsMovingEvenALittle"
               },
               "parameters": [
                 "Player",
-                "Health",
-                "=",
-                "1",
-                ""
-              ]
-            }
-          ],
-          "actions": []
-        },
-        {
-          "type": "BuiltinCommonInstructions::Standard",
-          "conditions": [
-            {
-              "type": {
-                "value": "KeyPressed"
-              },
-              "parameters": [
-                "",
-                "Right"
-              ]
-            },
-            {
-              "type": {
-                "value": "KeyPressed"
-              },
-              "parameters": [
-                "",
-                "Left"
+                "PlatformerObject"
               ]
             }
           ],
@@ -9286,25 +9303,31 @@
           "conditions": [
             {
               "type": {
-                "value": "KeyPressed"
-              },
-              "parameters": [
-                "",
-                "Down"
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": {
-                "value": "SetAnimationName"
+                "inverted": true,
+                "value": "PlatformBehavior::CanJump"
               },
               "parameters": [
                 "Player",
-                "\"Agacharse\""
+                "PlatformerObject"
+              ]
+            },
+            {
+              "type": {
+                "inverted": true,
+                "value": "PlatformBehavior::PlatformerObjectBehavior::IsMovingEvenALittle"
+              },
+              "parameters": [
+                "Player",
+                "PlatformerObject"
               ]
             }
-          ]
+          ],
+          "actions": []
+        },
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [],
+          "actions": []
         },
         {
           "type": "BuiltinCommonInstructions::Standard",
